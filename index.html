@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS 432 — Lab &amp; TA Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-card: #1c2129;
+      --bg-hover: #21262d;
+      --border: #30363d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #6e7681;
+      --accent: #f0883e;
+      --accent-glow: rgba(240, 136, 62, 0.15);
+      --accent-green: #3fb950;
+      --accent-blue: #58a6ff;
+      --accent-purple: #bc8cff;
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'Source Sans 3', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240, 136, 62, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240, 136, 62, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .course-tag {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--accent-glow);
+      border: 1px solid rgba(240, 136, 62, 0.25);
+      padding: 4px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    nav .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    nav a {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 14px 18px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    nav a:hover { color: var(--text-primary); border-bottom-color: var(--border); }
+    nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 56px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    section:nth-child(2) { animation-delay: 0.05s; }
+    section:nth-child(3) { animation-delay: 0.1s; }
+    section:nth-child(4) { animation-delay: 0.15s; }
+    section:nth-child(5) { animation-delay: 0.2s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 .icon {
+      font-size: 1.1rem;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    /* ── Announcements ── */
+    .announcement-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .announcement-list li {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .announcement-list li:hover {
+      background: var(--bg-hover);
+      border-left-color: var(--accent-green);
+    }
+
+    .announcement-list li strong { color: var(--text-primary); font-weight: 600; }
+
+    /* ── Tables ── */
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-card);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead { background: var(--bg-secondary); }
+
+    thead th {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--bg-hover); }
+
+    tbody td:first-child {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+
+    .lab-name { font-family: var(--font-display); font-size: 0.85rem; color: var(--accent-blue); }
+    .activity-name { color: var(--text-primary); font-weight: 600; }
+    .ta-name { color: var(--accent-purple); font-family: var(--font-display); font-size: 0.85rem; }
+
+    .no-lab {
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── TA Cards ── */
+    .ta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .ta-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+      text-align: center;
+    }
+
+    .ta-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .ta-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent);
+      margin: 0 auto 12px;
+    }
+
+    .ta-card h3 {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .ta-card .ta-email { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── Office Hours Grid ── */
+    .oh-grid {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-card);
+    }
+
+    .oh-grid table th:first-child,
+    .oh-grid table td:first-child {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      min-width: 70px;
+    }
+
+    .oh-slot {
+      display: inline-block;
+      background: var(--accent-glow);
+      border: 1px solid rgba(240, 136, 62, 0.3);
+      color: var(--accent);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .oh-slot:hover { background: rgba(240, 136, 62, 0.25); transform: scale(1.05); }
+
+    .oh-slot.green { background: rgba(63, 185, 80, 0.12); border-color: rgba(63, 185, 80, 0.3); color: var(--accent-green); }
+    .oh-slot.green:hover { background: rgba(63, 185, 80, 0.22); }
+    .oh-slot.blue { background: rgba(88, 166, 255, 0.12); border-color: rgba(88, 166, 255, 0.3); color: var(--accent-blue); }
+    .oh-slot.blue:hover { background: rgba(88, 166, 255, 0.22); }
+    .oh-slot.purple { background: rgba(188, 140, 255, 0.12); border-color: rgba(188, 140, 255, 0.3); color: var(--accent-purple); }
+    .oh-slot.purple:hover { background: rgba(188, 140, 255, 0.22); }
+
+    .oh-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-display);
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 1.5rem; }
+      .ta-grid { grid-template-columns: 1fr 1fr; }
+      nav a { padding: 12px 12px; font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#announcements" class="active">Announcements</a>
+      <a href="#lab-schedule">Lab Schedule</a>
+      <a href="#ta-info">TAs</a>
+      <a href="#office-hours">Office Hours</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <header>
+      <span class="course-tag">Spring 2026</span>
+      <h1>CS 432 — Computer and Network Security</h1>
+      <p class="subtitle">Lab and TA Website</p>
+    </header>
+
+    <!-- ═══ Announcements ═══ -->
+    <section id="announcements">
+      <h2><span class="icon">📢</span> Announcements</h2>
+      <ul class="announcement-list">
+        <li>Office hours will be online. All will start in the <strong>2nd week</strong>. Details for the office hours can be found in the table below.</li>
+        <li>Details about the labs will be announced via <strong>SUCourse</strong> when lab time approaches.</li>
+        <li>Our lab is <strong>FENS L045</strong>.</li>
+      </ul>
+    </section>
+
+    <!-- ═══ Lab Schedule ═══ -->
+    <section id="lab-schedule">
+      <h2><span class="icon">🗓️</span> Lab Schedule</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Week of</th>
+              <th>Lab</th>
+              <th>Activity</th>
+              <th>TA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Week 1</td>
+              <td>Feb 18</td>
+              <td colspan="3" class="no-lab">— No Lab —</td>
+            </tr>
+            <tr>
+              <td>Week 2</td>
+              <td>Feb 25</td>
+              <td colspan="3" class="no-lab">— No Lab —</td>
+            </tr>
+            <tr>
+              <td>Week 3</td>
+              <td>Mar 4</td>
+              <td colspan="3" class="no-lab">— No Lab —</td>
+            </tr>
+            <tr>
+              <td>Week 4</td>
+              <td>Mar 11</td>
+              <td colspan="3" class="no-lab">— Extra Lecture —</td>
+            </tr>
+            <tr>
+              <td>Week 5</td>
+              <td>Mar 18</td>
+              <td><span class="lab-name">Lab 2.1: 27.10 (A) &amp; 29.10 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 2</span></td>
+              <td><span class="ta-name">TA3</span></td>
+            </tr>
+            <tr>
+              <td>Week 6</td>
+              <td>Mar 25</td>
+              <td><span class="lab-name">Lab 2.2: 03.11 (A) &amp; 05.11 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 2</span></td>
+              <td><span class="ta-name">TA4</span></td>
+            </tr>
+            <tr>
+              <td>Week 7</td>
+              <td>Apr 1</td>
+              <td><span class="lab-name">Lab 3.1: 10.11 (A) &amp; 12.11 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 3</span></td>
+              <td><span class="ta-name">TA1</span></td>
+            </tr>
+            <tr>
+              <td>Week 8</td>
+              <td>Apr 8</td>
+              <td colspan="3" class="no-lab">— No Lab (Midterm Week) —</td>
+            </tr>
+            <tr>
+              <td>Week 9</td>
+              <td>Apr 15</td>
+              <td><span class="lab-name">Lab 3.2: 24.11 (A) &amp; 26.11 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 3</span></td>
+              <td><span class="ta-name">TA2</span></td>
+            </tr>
+            <tr>
+              <td>Week 10</td>
+              <td>Apr 22</td>
+              <td><span class="lab-name">Lab 4.1: 01.12 (A) &amp; 03.12 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 4</span></td>
+              <td><span class="ta-name">TA3</span></td>
+            </tr>
+            <tr>
+              <td>Week 11</td>
+              <td>Apr 29</td>
+              <td><span class="lab-name">Lab 4.2: 08.12 (A) &amp; 10.12 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 4</span></td>
+              <td><span class="ta-name">TA4</span></td>
+            </tr>
+            <tr>
+              <td>Week 12</td>
+              <td>May 6</td>
+              <td><span class="lab-name">Lab 5.1: 15.12 (A) &amp; 17.12 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 5</span></td>
+              <td><span class="ta-name">TA1</span></td>
+            </tr>
+            <tr>
+              <td>Week 13</td>
+              <td>May 13</td>
+              <td><span class="lab-name">Lab 5.2: 22.12 (A) &amp; 24.12 (B)</span></td>
+              <td><span class="activity-name">Lab Activity 5</span></td>
+              <td><span class="ta-name">TA2</span></td>
+            </tr>
+            <tr>
+              <td>Week 14</td>
+              <td>May 20</td>
+              <td colspan="3" class="no-lab">— No Lab —</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══ TA Information ═══ -->
+    <section id="ta-info">
+      <h2><span class="icon">👤</span> TA Information</h2>
+      <div class="ta-grid">
+        <div class="ta-card">
+          <div class="ta-avatar">T1</div>
+          <h3>Alaa Almouradi</h3>
+          <p class="ta-email">alaaalmouradi@sabanciuniv.edu</p>
+        </div>
+        <div class="ta-card">
+          <div class="ta-avatar">T2</div>
+          <h3>Elif Ecem Şamlıoğlu</h3>
+          <p class="ta-email">esamlioglu@sabanciuniv.edu</p>
+        </div>
+        <div class="ta-card">
+          <div class="ta-avatar">T3</div>
+          <h3>Saleh Alshurafa</h3>
+          <p class="ta-email">saleh@sabanciuniv.edu</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Office Hours ═══ -->
+    <section id="office-hours">
+      <h2><span class="icon">🕐</span> Office Hours</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem;">
+        Office hours are held online. Click on a TA's name to open their Google Calendar booking page.
+      </p>
+      <div class="oh-grid">
+        <table>
+          <thead>
+            <tr>
+              <th>Hour / Day</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>08:40</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>09:40</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>10:40</td>
+              <td></td>
+              <td><a href="#CALENDAR_LINK_TA1" class="oh-slot">TA1</a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>11:40</td>
+              <td><a href="#CALENDAR_LINK_TA2" class="oh-slot green">TA2</a></td>
+              <td><a href="#CALENDAR_LINK_TA1" class="oh-slot">TA1</a></td>
+              <td></td>
+              <td><a href="#CALENDAR_LINK_TA3" class="oh-slot blue">TA3</a></td>
+              <td><a href="#CALENDAR_LINK_TA4" class="oh-slot purple">TA4</a></td>
+            </tr>
+            <tr>
+              <td>12:40</td>
+              <td></td>
+              <td></td>
+              <td><a href="#CALENDAR_LINK_TA2" class="oh-slot green">TA2</a></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>13:40</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><a href="#CALENDAR_LINK_TA4" class="oh-slot purple">TA4</a></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="oh-note">Click a TA's name to reserve a slot via Google Calendar.</p>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      CS 432 — Spring 2026 · Lab &amp; TA Website
+    </div>
+  </footer>
+
+  <script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(section => observer.observe(section));
+  </script>
+
+</body>
+</html>
