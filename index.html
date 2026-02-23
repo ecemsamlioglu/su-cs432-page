@@ -347,6 +347,20 @@
 
     .oh-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; }
 
+    .oh-slot-no-hover {
+      display: inline-block;
+      background: var(--accent-glow);
+      border: 1px solid rgba(240, 136, 62, 0.3);
+      color: #484f58;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -588,17 +602,17 @@
             <tr>
               <td>14:40</td>
               <td></td>
+              <td><a class="oh-slot-no-hover">Lecture</a></td>
+              <td><a class="oh-slot-no-hover">Lab</a></td>
               <td></td>
-              <td></td>
-              <td><a href="#CALENDAR_LINK_TA4" class="oh-slot purple">TA4</a></td>
               <td></td>
             </tr>
             <tr>
               <td>15:40</td>
               <td></td>
               <td></td>
+              <td><a class="oh-slot-no-hover">Lab</a></td>
               <td></td>
-              <td><a href="#CALENDAR_LINK_TA4" class="oh-slot purple">TA4</a></td>
               <td></td>
             </tr>
             <tr>
@@ -606,7 +620,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <td><a class="oh-slot">Lecture</a></td>
+              <td><a class="oh-slot-no-hover">Lecture</a></td>
               <td></td>
             </tr>
             <tr>
@@ -614,7 +628,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <td><a class="oh-slot">Lecture</a></td>
+              <td><a class="oh-slot-no-hover">Lecture</a></td>
               <td></td>
             </tr>
             <tr>
@@ -622,7 +636,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <td><a href="#CALENDAR_LINK_TA4" class="oh-slot purple">TA4</a></td>
+              <td></td>
               <td></td>
             </tr>
           </tbody>
